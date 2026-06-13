@@ -31,7 +31,9 @@ apis:
       - type: Documentation
         url: https://docs.openexchangerates.org/reference/api-introduction
       - type: OpenAPI
-        url: https://docs.openexchangerates.org/llms.txt
+        url: https://raw.githubusercontent.com/api-evangelist/open-exchange-rates/refs/heads/main/openapi/openapi.yaml
+      - type: JSONSchema
+        url: https://raw.githubusercontent.com/api-evangelist/open-exchange-rates/refs/heads/main/json-schema/exchange-rates-response.json
       - type: Authentication
         url: https://docs.openexchangerates.org/reference/authentication
     contact:
