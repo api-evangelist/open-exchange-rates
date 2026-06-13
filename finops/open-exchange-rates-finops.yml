@@ -1,0 +1,68 @@
+name: Open Exchange Rates FinOps
+description: Financial operations guidance for managing costs, optimizing usage, and planning budgets when consuming the Open Exchange Rates API.
+url: https://openexchangerates.org/signup
+cost_management:
+  billing_model: subscription
+  billing_cycles:
+    - monthly
+    - annual
+  annual_savings:
+    description: Annual plans include two months free, equivalent to approximately 16.7% savings versus month-to-month.
+    example: Developer plan annual cost $120 vs $144 monthly equivalent.
+  overage_policy:
+    description: Monthly request limits are soft limits. There are no automatic overage charges; however, sustained overuse may prompt an upgrade notification.
+    risk: low
+  currency: USD
+optimization_strategies:
+  - strategy: Cache API responses
+    description: Cache the latest.json endpoint response locally and serve from cache within the update window for your plan (e.g., hourly for Free/Developer). Avoids redundant requests and maximizes your monthly allowance.
+  - strategy: Filter symbols
+    description: Use the symbols parameter to request only the currencies you need, reducing payload size and processing overhead.
+  - strategy: Monitor request count
+    description: Track monthly API call volume against plan limits using your Account Dashboard to avoid unexpected plan pressure.
+  - strategy: Use annual billing
+    description: Commit to an annual plan for a two-month-free discount, especially if usage is predictable and sustained.
+  - strategy: Leverage historical data
+    description: Historical rates (EOD) do not change, so cached or pre-fetched historical data can be stored long-term to avoid repeated API calls for the same date.
+  - strategy: Request only needed endpoints
+    description: Prefer the latest.json endpoint for real-time needs and avoid unnecessary calls to currencies.json (which changes rarely) by caching the currency list locally.
+discounts:
+  - type: Annual subscription
+    amount: 2 months free (~16.7% savings)
+  - type: Non-profit
+    amount: 20% off
+    combinable: true
+    note: Can be combined with annual discount
+  - type: Educational institution
+    amount: 20% off
+    combinable: true
+    note: Can be combined with annual discount
+  - type: Custom / VIP
+    amount: negotiable
+    note: Contact enterprise team for volume or custom pricing
+budget_planning:
+  tiers:
+    - name: Zero cost
+      plan: Forever Free
+      monthly_usd: 0
+      suitable_for: Prototyping, personal projects, low-volume hobby apps
+    - name: Low cost
+      plan: Developer
+      monthly_usd: 12
+      annual_usd: 120
+      suitable_for: Small production apps, startups, freelancers
+    - name: Mid range
+      plan: Enterprise
+      monthly_usd: 47
+      annual_usd: 470
+      suitable_for: Business applications needing sub-hourly updates and time-series data
+    - name: High volume
+      plan: Unlimited
+      monthly_usd: 97
+      annual_usd: 970
+      suitable_for: High-traffic fintech platforms, trading dashboards, enterprise integrations
+    - name: Mission critical
+      plan: VIP
+      monthly_usd: custom
+      suitable_for: Financial institutions requiring SLAs, bid-ask data, and second-level updates
+refund_policy: Pro-rata refunds are available on a monthly basis if the service does not meet expectations.

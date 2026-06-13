@@ -1,0 +1,45 @@
+name: Open Exchange Rates API Rate Limits
+description: Request allowances and update frequencies for Open Exchange Rates API plans. Monthly request limits are soft limits — exceeding them slightly does not result in immediate blocking or overage charges.
+url: https://openexchangerates.org/signup
+limits:
+  - plan: Forever Free
+    requests:
+      monthly: 1000
+      type: soft
+    update_frequency: hourly
+    base_currencies:
+      - USD
+    notes: USD is the only supported base currency on the free tier.
+  - plan: Developer
+    requests:
+      monthly: 10000
+      type: soft
+    update_frequency: hourly
+    base_currencies: all
+    notes: All 200+ base currencies available.
+  - plan: Enterprise
+    requests:
+      monthly: 100000
+      type: soft
+    update_frequency: 30-minute
+    base_currencies: all
+    notes: Time-series requests included; sub-hourly data available.
+  - plan: Unlimited
+    requests:
+      monthly: unlimited
+      type: unlimited
+    update_frequency: 5-minute
+    base_currencies: all
+    notes: Currency conversion endpoint included.
+  - plan: VIP
+    requests:
+      monthly: unlimited
+      type: unlimited
+    update_frequency: second-level
+    base_currencies: all
+    notes: Bid-ask pricing and uptime SLA guarantees included.
+enforcement:
+  type: soft-limit
+  description: Monthly request allowances are soft limits. Slightly exceeding them will not immediately block access or incur automatic overage charges. Persistent overages may require a plan upgrade.
+timestamps: UTC
+uptime_sla: 99.9% historical uptime (SLA formally available on VIP plans only)

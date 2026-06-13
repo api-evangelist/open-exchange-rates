@@ -1,0 +1,68 @@
+aid: open-exchange-rates
+name: Open Exchange Rates
+description: Foreign exchange rates REST API providing historical and real-time currency exchange data for 200+ currencies with hourly updates and USD as the default base currency. Trusted by over 100,000 organizations globally, Open Exchange Rates has delivered reliable forex data since 2011 with historical coverage back to January 1, 1999.
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/open-exchange-rates/refs/heads/main/apis.yml
+created: '2026-06-13'
+modified: '2026-06-13'
+specificationVersion: '0.19'
+tags:
+  - Foreign Exchange
+  - Currency
+  - Forex
+  - Finance
+  - Exchange Rates
+  - Currency Conversion
+  - Historical Rates
+apis:
+  - aid: open-exchange-rates:open-exchange-rates-api
+    name: Open Exchange Rates API
+    description: RESTful JSON API delivering live and historical foreign exchange rates for 200+ world and digital currencies. Supports latest rates, historical end-of-day rates, time-series queries, currency conversion, and OHLC data depending on subscription plan.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://openexchangerates.org
+    baseURL: https://openexchangerates.org/api
+    tags:
+      - Foreign Exchange
+      - Currency
+      - Forex
+      - Exchange Rates
+      - Currency Conversion
+    properties:
+      - type: Documentation
+        url: https://docs.openexchangerates.org/reference/api-introduction
+      - type: OpenAPI
+        url: https://docs.openexchangerates.org/llms.txt
+      - type: Authentication
+        url: https://docs.openexchangerates.org/reference/authentication
+    contact:
+      - FN: Open Exchange Rates Support
+        url: https://support.openexchangerates.org
+        email: support@openexchangerates.org
+common:
+  - type: Website
+    url: https://openexchangerates.org
+  - type: Documentation
+    url: https://docs.openexchangerates.org/reference/api-introduction
+  - type: GitHubOrg
+    url: https://github.com/openexchangerates
+  - type: Pricing
+    url: https://openexchangerates.org/signup
+  - type: StatusPage
+    url: https://status.openexchangerates.org
+  - type: Plans
+    url: plans/open-exchange-rates-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/open-exchange-rates-rate-limits.yml
+  - type: FinOps
+    url: finops/open-exchange-rates-finops.yml
+  - type: TermsOfService
+    url: https://openexchangerates.org/terms
+  - type: PrivacyPolicy
+    url: https://openexchangerates.org/privacy
+  - type: Support
+    url: https://support.openexchangerates.org
+  - type: Contact
+    url: https://openexchangerates.org/contact
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

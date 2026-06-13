@@ -1,0 +1,97 @@
+name: Open Exchange Rates Plans and Pricing
+description: Subscription plans for the Open Exchange Rates API providing foreign exchange rate data for 200+ currencies.
+url: https://openexchangerates.org/signup
+plans:
+  - name: Forever Free
+    description: Free tier for hobbyists and developers to explore the API with USD as the only base currency.
+    price:
+      monthly: 0
+      annual: 0
+      currency: USD
+    features:
+      - 1000 requests per month
+      - Hourly rate updates
+      - USD base currency only
+      - Access to 200+ currencies
+      - Historical data back to 1999
+    support:
+      - Community
+  - name: Developer
+    description: Entry-level paid plan for small apps and individual developers needing flexible base currencies.
+    price:
+      monthly: 12
+      annual: 120
+      currency: USD
+    features:
+      - 10000 requests per month
+      - Hourly rate updates
+      - All base currencies
+      - Access to 200+ currencies
+      - Historical data back to 1999
+      - Email support
+    support:
+      - Email
+  - name: Enterprise
+    description: Mid-tier plan for businesses needing more frequent updates and time-series capabilities.
+    price:
+      monthly: 47
+      annual: 470
+      currency: USD
+    features:
+      - 100000 requests per month
+      - 30-minute rate updates
+      - All base currencies
+      - Access to 200+ currencies
+      - Historical data back to 1999
+      - Time-series requests
+      - In-depth technical support
+    support:
+      - Email
+      - Technical
+  - name: Unlimited
+    description: High-frequency plan for production systems requiring near-real-time data and unlimited calls.
+    price:
+      monthly: 97
+      annual: 970
+      currency: USD
+    features:
+      - Unlimited requests per month
+      - 5-minute rate updates
+      - All base currencies
+      - Access to 200+ currencies
+      - Historical data back to 1999
+      - Time-series requests
+      - Currency conversion requests
+    support:
+      - Email
+      - Technical
+  - name: VIP
+    description: Custom enterprise-grade tier with second-level update frequency, bid-ask pricing, dedicated phone support, uptime guarantees, and unrestricted requests.
+    price:
+      monthly: custom
+      annual: custom
+      currency: USD
+    features:
+      - Unlimited requests per month
+      - Second-level rate updates
+      - Bid-ask pricing
+      - All base currencies
+      - Access to 200+ currencies
+      - Historical data back to 1999
+      - Time-series requests
+      - Currency conversion requests
+      - Uptime SLA guarantees
+      - Dedicated phone support
+    support:
+      - Email
+      - Technical
+      - Phone
+      - Dedicated
+discounts:
+  - type: annual
+    description: Two months free when paying annually (effectively 10-month pricing for 12 months).
+  - type: nonprofit
+    description: 20% discount for non-profit organizations, combinable with annual subscription discount.
+  - type: education
+    description: 20% discount for educational institutions, combinable with annual subscription discount.
+refund_policy: Pro-rata monthly refunds available if service does not meet expectations.
