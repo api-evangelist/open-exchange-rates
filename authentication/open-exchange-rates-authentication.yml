@@ -1,0 +1,17 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/openapi.yaml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - query
+schemes:
+- name: appId
+  type: apiKey
+  in: query
+  parameter: app_id
+  description: Your unique App ID obtained from openexchangerates.org. Required for all endpoints
+    except /currencies.json.
+  sources:
+  - openapi/openapi.yaml
