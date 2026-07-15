@@ -41,6 +41,8 @@ apis:
         url: https://support.openexchangerates.org
         email: support@openexchangerates.org
 common:
+  - type: AgenticAccess
+    url: agentic-access/open-exchange-rates-agentic-access.yml
   - type: DomainSecurity
     url: security/open-exchange-rates-domain-security.yml
   - type: Authentication
