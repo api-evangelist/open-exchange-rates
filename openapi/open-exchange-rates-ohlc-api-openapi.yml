@@ -1,0 +1,202 @@
+openapi: 3.0.3
+info:
+  title: Open Exchange Rates Convert OHLC API
+  description: 'RESTful JSON API delivering live and historical foreign exchange rates for 200+ world and digital currencies. Supports latest rates, historical end-of-day rates, time-series queries, currency conversion, and OHLC data depending on subscription plan. Trusted by over 100,000 organizations globally since 2011, with historical coverage back to January 1, 1999.
+
+    '
+  version: '0.7'
+  termsOfService: https://openexchangerates.org/terms
+  contact:
+    name: Open Exchange Rates Support
+    url: https://support.openexchangerates.org
+    email: support@openexchangerates.org
+  license:
+    name: Proprietary
+    url: https://openexchangerates.org/terms
+servers:
+- url: https://openexchangerates.org/api
+  description: Production API server
+security:
+- appId: []
+tags:
+- name: OHLC
+  description: Open/High/Low/Close data (VIP Platinum plan)
+paths:
+  /ohlc.json:
+    get:
+      operationId: getOHLC
+      summary: Get OHLC exchange rates
+      description: 'Returns Open, High, Low, Close (OHLC) and average exchange rates for a given time period, ranging from 1 minute to 1 month. Values derive from all recorded prices published at up to 1-second intervals. Available to VIP Platinum plan subscribers.
+
+        '
+      tags:
+      - OHLC
+      parameters:
+      - $ref: '#/components/parameters/app_id'
+      - name: start_time
+        in: query
+        required: true
+        description: 'Start time for the OHLC period in ISO-8601 format (UTC only), e.g. 2023-01-01T00:00:00Z
+
+          '
+        schema:
+          type: string
+          format: date-time
+          example: '2023-01-01T00:00:00Z'
+      - name: period
+        in: query
+        required: true
+        description: 'Period duration starting at start_time. Supported values include 1m, 5m, 15m, 30m, 1h, 12h, 1d, 1w, 1mo.
+
+          '
+        schema:
+          type: string
+          example: 1d
+      - name: symbols
+        in: query
+        required: false
+        description: Comma-separated 3-letter currency codes to limit results
+        schema:
+          type: string
+          example: EUR,GBP
+      - name: base
+        in: query
+        required: false
+        description: Base currency (3-letter ISO code, defaults to USD)
+        schema:
+          type: string
+          example: USD
+      - $ref: '#/components/parameters/prettyprint'
+      responses:
+        '200':
+          description: Successful response with OHLC exchange rate data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OHLCResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  schemas:
+    OHLCRate:
+      type: object
+      description: OHLC rate data for a single currency
+      properties:
+        open:
+          type: number
+          format: double
+          description: Opening rate at the start of the period
+        high:
+          type: number
+          format: double
+          description: Highest rate recorded during the period
+        low:
+          type: number
+          format: double
+          description: Lowest rate recorded during the period
+        close:
+          type: number
+          format: double
+          description: Closing rate at the end of the period
+        average:
+          type: number
+          format: double
+          description: Average rate over the period
+    OHLCResponse:
+      type: object
+      description: OHLC exchange rates response
+      properties:
+        disclaimer:
+          type: string
+          description: Legal disclaimer URL
+        license:
+          type: string
+          description: License URL
+        start_time:
+          type: string
+          format: date-time
+          description: Start time of the OHLC period (UTC)
+        end_time:
+          type: string
+          format: date-time
+          description: End time of the OHLC period (UTC)
+        base:
+          type: string
+          description: Base currency code
+        rates:
+          type: object
+          description: 'Object mapping 3-letter ISO currency codes to their OHLC data
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/OHLCRate'
+    ErrorResponse:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: boolean
+          description: Always true for error responses
+          example: true
+        status:
+          type: integer
+          description: HTTP status code
+          example: 401
+        message:
+          type: string
+          description: Short error identifier
+          example: invalid_app_id
+        description:
+          type: string
+          description: Detailed human-readable error explanation
+          example: Invalid App ID provided. Please sign up at https://openexchangerates.org/signup, or contact support@openexchangerates.org.
+  parameters:
+    app_id:
+      name: app_id
+      in: query
+      required: true
+      description: Your unique App ID for authentication
+      schema:
+        type: string
+        example: your_app_id_here
+    prettyprint:
+      name: prettyprint
+      in: query
+      required: false
+      description: 'Set to true to enable human-readable (pretty-printed) JSON output for debugging. Defaults to false to minimize response size.
+
+        '
+      schema:
+        type: boolean
+        default: false
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid App ID
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — invalid parameters or unavailable data
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TooManyRequests:
+      description: Too many requests — rate limit or quota exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    appId:
+      type: apiKey
+      in: query
+      name: app_id
+      description: 'Your unique App ID obtained from openexchangerates.org. Required for all endpoints except /currencies.json.
+
+        '

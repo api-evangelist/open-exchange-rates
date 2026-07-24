@@ -1,0 +1,202 @@
+openapi: 3.0.3
+info:
+  title: Open Exchange Rates Convert Usage API
+  description: 'RESTful JSON API delivering live and historical foreign exchange rates for 200+ world and digital currencies. Supports latest rates, historical end-of-day rates, time-series queries, currency conversion, and OHLC data depending on subscription plan. Trusted by over 100,000 organizations globally since 2011, with historical coverage back to January 1, 1999.
+
+    '
+  version: '0.7'
+  termsOfService: https://openexchangerates.org/terms
+  contact:
+    name: Open Exchange Rates Support
+    url: https://support.openexchangerates.org
+    email: support@openexchangerates.org
+  license:
+    name: Proprietary
+    url: https://openexchangerates.org/terms
+servers:
+- url: https://openexchangerates.org/api
+  description: Production API server
+security:
+- appId: []
+tags:
+- name: Usage
+  description: Plan and usage statistics
+paths:
+  /usage.json:
+    get:
+      operationId: getUsage
+      summary: Get API usage statistics
+      description: 'Returns plan information and usage statistics for the provided App ID, including request counts, plan limits, and subscription details.
+
+        '
+      tags:
+      - Usage
+      parameters:
+      - $ref: '#/components/parameters/app_id'
+      - $ref: '#/components/parameters/prettyprint'
+      responses:
+        '200':
+          description: Successful response with usage and plan details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageResponse'
+              example:
+                status: active
+                data:
+                  app_id: your_app_id
+                  status: active
+                  plan:
+                    name: Developer
+                    quota: 1000 requests / month
+                    update_frequency: 3600s
+                    features:
+                      base: false
+                      symbols: false
+                      experimental: false
+                      time-series: false
+                      convert: false
+                  usage:
+                    requests: 123
+                    requests_quota: 1000
+                    requests_remaining: 877
+                    days_elapsed: 5
+                    days_remaining: 26
+                    daily_average: 24
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    UsageResponse:
+      type: object
+      description: API usage and plan response
+      properties:
+        status:
+          type: string
+          description: Request status
+        data:
+          $ref: '#/components/schemas/UsageData'
+    UsageData:
+      type: object
+      description: Combined plan and usage data
+      properties:
+        app_id:
+          type: string
+          description: The App ID these statistics relate to
+        status:
+          type: string
+          description: Account status (e.g., active, suspended)
+        plan:
+          $ref: '#/components/schemas/Plan'
+        usage:
+          $ref: '#/components/schemas/UsageStats'
+    Plan:
+      type: object
+      description: Subscription plan details
+      properties:
+        name:
+          type: string
+          description: Plan name (e.g., Developer, Enterprise, Unlimited)
+        quota:
+          type: string
+          description: Human-readable request quota description
+        update_frequency:
+          type: string
+          description: Rate update frequency in seconds (e.g., "3600s")
+        features:
+          $ref: '#/components/schemas/PlanFeatures'
+    UsageStats:
+      type: object
+      description: Usage statistics for the current billing period
+      properties:
+        requests:
+          type: integer
+          description: Number of API requests made in the current period
+        requests_quota:
+          type: integer
+          description: Total request quota for the billing period
+        requests_remaining:
+          type: integer
+          description: Remaining requests in the current period
+        days_elapsed:
+          type: integer
+          description: Number of days elapsed in the current billing period
+        days_remaining:
+          type: integer
+          description: Number of days remaining in the current billing period
+        daily_average:
+          type: number
+          description: Average daily request count so far this period
+    PlanFeatures:
+      type: object
+      description: Features enabled for the subscription plan
+      properties:
+        base:
+          type: boolean
+          description: Whether non-USD base currencies are supported
+        symbols:
+          type: boolean
+          description: Whether currency filtering (symbols) is supported
+        experimental:
+          type: boolean
+          description: Whether experimental features are enabled
+        time-series:
+          type: boolean
+          description: Whether time-series endpoint is available
+        convert:
+          type: boolean
+          description: Whether the convert endpoint is available
+    ErrorResponse:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: boolean
+          description: Always true for error responses
+          example: true
+        status:
+          type: integer
+          description: HTTP status code
+          example: 401
+        message:
+          type: string
+          description: Short error identifier
+          example: invalid_app_id
+        description:
+          type: string
+          description: Detailed human-readable error explanation
+          example: Invalid App ID provided. Please sign up at https://openexchangerates.org/signup, or contact support@openexchangerates.org.
+  parameters:
+    app_id:
+      name: app_id
+      in: query
+      required: true
+      description: Your unique App ID for authentication
+      schema:
+        type: string
+        example: your_app_id_here
+    prettyprint:
+      name: prettyprint
+      in: query
+      required: false
+      description: 'Set to true to enable human-readable (pretty-printed) JSON output for debugging. Defaults to false to minimize response size.
+
+        '
+      schema:
+        type: boolean
+        default: false
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid App ID
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    appId:
+      type: apiKey
+      in: query
+      name: app_id
+      description: 'Your unique App ID obtained from openexchangerates.org. Required for all endpoints except /currencies.json.
+
+        '

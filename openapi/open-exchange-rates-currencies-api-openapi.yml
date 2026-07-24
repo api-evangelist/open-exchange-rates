@@ -1,0 +1,100 @@
+openapi: 3.0.3
+info:
+  title: Open Exchange Rates Convert Currencies API
+  description: 'RESTful JSON API delivering live and historical foreign exchange rates for 200+ world and digital currencies. Supports latest rates, historical end-of-day rates, time-series queries, currency conversion, and OHLC data depending on subscription plan. Trusted by over 100,000 organizations globally since 2011, with historical coverage back to January 1, 1999.
+
+    '
+  version: '0.7'
+  termsOfService: https://openexchangerates.org/terms
+  contact:
+    name: Open Exchange Rates Support
+    url: https://support.openexchangerates.org
+    email: support@openexchangerates.org
+  license:
+    name: Proprietary
+    url: https://openexchangerates.org/terms
+servers:
+- url: https://openexchangerates.org/api
+  description: Production API server
+security:
+- appId: []
+tags:
+- name: Currencies
+  description: Available currency list
+paths:
+  /currencies.json:
+    get:
+      operationId: getCurrencies
+      summary: Get available currencies
+      description: 'Returns a JSON object of all available currency symbols with their full names. Useful for populating dropdowns or validating currency codes. This endpoint does not require an app_id.
+
+        '
+      tags:
+      - Currencies
+      parameters:
+      - $ref: '#/components/parameters/prettyprint'
+      - $ref: '#/components/parameters/show_alternative'
+      - name: show_inactive
+        in: query
+        required: false
+        description: 'Include historical/inactive currencies that are no longer updated (defaults to false)
+
+          '
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: Successful response with available currencies
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrenciesResponse'
+              example:
+                USD: United States Dollar
+                EUR: Euro
+                GBP: British Pound Sterling
+                JPY: Japanese Yen
+                CAD: Canadian Dollar
+components:
+  parameters:
+    show_alternative:
+      name: show_alternative
+      in: query
+      required: false
+      description: 'Set to true to extend returned values with alternative, black market and digital currency rates. Defaults to false.
+
+        '
+      schema:
+        type: boolean
+        default: false
+    prettyprint:
+      name: prettyprint
+      in: query
+      required: false
+      description: 'Set to true to enable human-readable (pretty-printed) JSON output for debugging. Defaults to false to minimize response size.
+
+        '
+      schema:
+        type: boolean
+        default: false
+  schemas:
+    CurrenciesResponse:
+      type: object
+      description: 'Object mapping 3-letter ISO currency codes to their full names
+
+        '
+      additionalProperties:
+        type: string
+      example:
+        USD: United States Dollar
+        EUR: Euro
+        GBP: British Pound Sterling
+  securitySchemes:
+    appId:
+      type: apiKey
+      in: query
+      name: app_id
+      description: 'Your unique App ID obtained from openexchangerates.org. Required for all endpoints except /currencies.json.
+
+        '
